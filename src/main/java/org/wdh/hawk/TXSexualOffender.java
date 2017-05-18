@@ -103,8 +103,9 @@ public class TXSexualOffender {
 		this.driver.findElement(By.id("ContentBody_ctrlSearchByName_txtBirthDate")).clear();
 		this.driver.findElement(By.id("ContentBody_ctrlSearchByName_txtBirthDate")).sendKeys(
 				new CharSequence[]{AdultInfo.stripSlashes(paramAdultInfo.getDob())});
-		new Select(this.driver.findElement(By.id("ContentBody_ctrlSearchByName_ddlSex"))).selectByVisibleText(paramAdultInfo.getSex()
-				.toUpperCase());
+		if (paramAdultInfo.getSex() != null)
+			new Select(this.driver.findElement(By.id("ContentBody_ctrlSearchByName_ddlSex"))).selectByVisibleText(paramAdultInfo.getSex()
+					.toUpperCase());
 		this.driver.findElement(By.id("ContentBody_btnSearch")).click();
 		getRecords(this.driver.getPageSource(), paramAdultInfo);
 		if (this.printFlag) {

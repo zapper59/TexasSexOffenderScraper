@@ -359,11 +359,11 @@ public class HawkMainApp extends JFrame {
 		Object localObject = new ArrayList();
 		if (i == 0) {
 			File localFile = localJFileChooser.getSelectedFile();
-			FileNameExtensionFilter localFileNameExtensionFilter3 = (FileNameExtensionFilter) localJFileChooser.getFileFilter();
+			FileFilter localFileNameExtensionFilter3 = localJFileChooser.getFileFilter();
 			this.fileLabel.setText(localJFileChooser.getSelectedFile().getName());
 			try {
 				CSVReader localCSVReader = null;
-				if (localFileNameExtensionFilter3.getExtensions()[0].equals("tsv")) {
+				if (localFileNameExtensionFilter3 == localFileNameExtensionFilter1 || localJFileChooser.getSelectedFile().getPath().endsWith("tsv")) {
 					localCSVReader = new CSVReader(new FileReader(localJFileChooser.getSelectedFile().getPath()), '\t');
 				} else {
 					localCSVReader = new CSVReader(new FileReader(localJFileChooser.getSelectedFile().getPath()), ',');
@@ -463,7 +463,7 @@ public class HawkMainApp extends JFrame {
 		String str = null;
 		CSVWriter localCSVWriter = null;
 		try {
-			if (localFileNameExtensionFilter2 == localFileNameExtensionFilter1) {
+			if (localFileNameExtensionFilter2 == localFileNameExtensionFilter1 || localJFileChooser.getSelectedFile().getPath().endsWith("tsv")) {
 				str = localJFileChooser.getSelectedFile().getPath();
 				if (!str.endsWith("tsv")) {
 					str = new String(str + ".tsv");

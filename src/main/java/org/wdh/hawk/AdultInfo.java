@@ -1,5 +1,9 @@
 package org.wdh.hawk;
 
+import java.util.Arrays;
+
+import javax.swing.JOptionPane;
+
 public class AdultInfo {
 	String lastName;
 	String firstName;
@@ -25,10 +29,19 @@ public class AdultInfo {
 	}
 
 	public AdultInfo(String[] paramArrayOfString) {
+		if (paramArrayOfString.length < 3) {
+			System.out.println(Arrays.toString(paramArrayOfString));
+			JOptionPane.showMessageDialog(null,"Each row must have at least 3 entries: last_name first_name dob and optionally gender.\nPlease close and re-open the program.","Invalid TSV",JOptionPane.WARNING_MESSAGE);
+			return;
+		}
 		this.lastName = removeSpaces(paramArrayOfString[0]);
 		this.firstName = removeSpaces(paramArrayOfString[1]);
 		this.dob = paramArrayOfString[2];
-		this.sex = paramArrayOfString[3];
+		if (paramArrayOfString.length > 3){
+			this.sex = paramArrayOfString[3];
+		} else {
+			this.sex = null;
+		}
 		this.checkResult = 0;
 		if (paramArrayOfString.length > 4) {
 			this.checkResult = Integer.parseInt(paramArrayOfString[4]);
@@ -75,6 +88,7 @@ public class AdultInfo {
 		this.sex = paramString;
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer localStringBuffer = new StringBuffer();
 		localStringBuffer.append(this.firstName + " ");
