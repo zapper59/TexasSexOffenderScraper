@@ -44,7 +44,6 @@ public class TXSexualOffender {
 	public TXSexualOffender(List paramList, boolean paramBoolean1, boolean paramBoolean2) {
 		this.entries = paramList;
 		this.printFlag = paramBoolean2;
-		this.printFlag = false;
 		this.onlyCheckNewEntries = paramBoolean1;
 		this.checksOk = 0;
 		this.checksBad = 0;
