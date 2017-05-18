@@ -13,7 +13,15 @@ dependencies{
 	compile group: 'au.com.bytecode', name: 'opencsv', version: '2.4'
 	compile group: 'com.toedter', name: 'jcalendar', version: '1.4'
 	//compile group: 'com.google.guava', name: 'guava', version: '22.0-rc1'
+	runtime files("libs")
 }
+
+//distributions {
+//	main {
+//		baseName = 'Hawk'
+//		contents{ from { 'src/main/resources'}}
+//	}
+//}
 
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.7'

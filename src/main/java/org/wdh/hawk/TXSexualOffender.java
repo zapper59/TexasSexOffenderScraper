@@ -1,11 +1,16 @@
 package org.wdh.hawk;
 
 import java.awt.Robot;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.swing.JOptionPane;
+
 import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -52,17 +57,27 @@ public class TXSexualOffender {
 
 	public void setUp() throws Exception {
 		if (!this.simulate) {
+			System.out.println(getClass().getClassLoader().getResources("geckodriver_windows.exe"));
+			String search = "geckodriver_windows.exe";
 			if (System.getProperty("os.name").contains("Linux")) {
-				System.setProperty("webdriver.gecko.driver", getClass().getClassLoader().getResource("geckodriver_linux").getPath());
-			} else {
-				System.setProperty("webdriver.gecko.driver", getClass().getClassLoader().getResource("geckodriver_windows.exe").getPath());
+				search = "geckodriver_linux";
 			}
-			this.robot = new Robot();
-			this.logger = Logger.getLogger("InfoLogging");
-			this.driver = new FirefoxDriver();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			this.baseUrl = "https://records.txdps.state.tx.us/";
-//			this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			Enumeration<URL> enumer = getClass().getClassLoader().getResources(search);
+			while (enumer.hasMoreElements()){
+				URL driverURL = enumer.nextElement();
+				try {
+					System.setProperty("webdriver.gecko.driver", driverURL.getPath());
+					System.out.println(driverURL.getPath());
+					this.robot = new Robot();
+					this.logger = Logger.getLogger("InfoLogging");
+					this.driver = new FirefoxDriver();
+					driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+					this.baseUrl = "https://records.txdps.state.tx.us/";
+					return;
+				} catch (Exception e) {
+				}
+			}
+			JOptionPane.showMessageDialog(null,"Could not find driver file.","ERROR",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

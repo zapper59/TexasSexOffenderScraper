@@ -30,7 +30,7 @@ public class AdultInfo {
 
 	public AdultInfo(String[] paramArrayOfString) {
 		if (paramArrayOfString.length < 3) {
-			System.out.println(Arrays.toString(paramArrayOfString));
+			System.out.println("Length: "+paramArrayOfString.length + " " + Arrays.toString(paramArrayOfString));
 			JOptionPane.showMessageDialog(null,"Each row must have at least 3 entries: last_name first_name dob and optionally gender.\nPlease close and re-open the program.","Invalid TSV",JOptionPane.WARNING_MESSAGE);
 			return;
 		}
