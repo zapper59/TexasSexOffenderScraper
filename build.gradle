@@ -1,0 +1,20 @@
+apply plugin: "eclipse"
+apply plugin: "application"
+
+mainClassName = "org.wdh.hawk.HawkMainApp"
+
+repositories {mavenCentral()}
+
+dependencies{
+	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.4.0'
+	//compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.29.1'
+	//compile group: 'com.jgoodies', name: 'jgoodies-looks', version: '2.7.0'
+	compile group: 'junit', name: 'junit', version: '4.12'
+	compile group: 'au.com.bytecode', name: 'opencsv', version: '2.4'
+	compile group: 'com.toedter', name: 'jcalendar', version: '1.4'
+	//compile group: 'com.google.guava', name: 'guava', version: '22.0-rc1'
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.7'
+}
