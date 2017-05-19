@@ -28,6 +28,7 @@ public class AdultInfo {
 		this.checkDone = false;
 	}
 
+
 	public AdultInfo(String[] paramArrayOfString) {
 		if (paramArrayOfString.length < 3) {
 			System.out.println("Length: "+paramArrayOfString.length + " " + Arrays.toString(paramArrayOfString));

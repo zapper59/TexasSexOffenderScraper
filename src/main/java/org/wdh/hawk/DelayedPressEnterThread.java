@@ -2,6 +2,7 @@ package org.wdh.hawk;
 
 import java.awt.AWTException;
 import java.awt.Robot;
+import java.awt.event.KeyEvent;
 
 public class DelayedPressEnterThread implements Runnable {
 	Thread runner;
@@ -25,6 +26,7 @@ public class DelayedPressEnterThread implements Runnable {
 		this.runner.start();
 	}
 
+	@Override
 	public void run() {
 		Robot localRobot = null;
 		try {
@@ -33,8 +35,8 @@ public class DelayedPressEnterThread implements Runnable {
 			localAWTException.printStackTrace();
 		}
 		localRobot.delay(this.delay);
-		localRobot.keyPress(10);
-		localRobot.keyRelease(10);
+		localRobot.keyPress(KeyEvent.VK_ENTER);
+		localRobot.keyRelease(KeyEvent.VK_ENTER);
 	}
 }
 

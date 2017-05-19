@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -369,8 +370,9 @@ public class HawkMainApp extends JFrame {
 					localCSVReader = new CSVReader(new FileReader(localJFileChooser.getSelectedFile().getPath()), ',');
 				}
 				localObject = localCSVReader.readAll();
-				for (int j = 0; j < ((List) localObject).size(); j++) {
-					this.entries.add(new AdultInfo((String[]) ((List) localObject).get(j)));
+				for (String[]a:(Iterable<String[]>)localObject) {
+					System.out.println(Arrays.toString(a));
+					this.entries.add(new AdultInfo(a));
 				}
 			} catch (FileNotFoundException localFileNotFoundException) {
 				localFileNotFoundException.printStackTrace();

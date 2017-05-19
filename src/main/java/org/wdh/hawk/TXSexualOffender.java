@@ -87,12 +87,7 @@ public class TXSexualOffender {
 				AdultInfo localAdultInfo = (AdultInfo) this.entries.get(i);
 				if (this.simulate) {
 					simulateTestcase(localAdultInfo);
-				} else if (this.onlyCheckNewEntries) {
-					if (localAdultInfo.getCheckResult() == 0) {
-						doTestcase(localAdultInfo);
-						localAdultInfo.setCheckDone(true);
-					}
-				} else {
+				} else if (!onlyCheckNewEntries ^ localAdultInfo.getCheckResult() == 0) {
 					doTestcase(localAdultInfo);
 					localAdultInfo.setCheckDone(true);
 				}
@@ -101,6 +96,7 @@ public class TXSexualOffender {
 	}
 
 	public void doTestcase(AdultInfo paramAdultInfo) throws Exception {
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		if (this.firstTime) {
 			this.firstTime = false;
 			this.driver.get(this.baseUrl + "/SexOffender/PublicSite/Application/Search/Caveats.aspx?SearchType=Name");
@@ -119,16 +115,18 @@ public class TXSexualOffender {
 		this.driver.findElement(By.id("ContentBody_ctrlSearchByName_txtBirthDate")).sendKeys(
 				new CharSequence[]{AdultInfo.stripSlashes(paramAdultInfo.getDob())});
 		if (paramAdultInfo.getSex() != null)
-			new Select(this.driver.findElement(By.id("ContentBody_ctrlSearchByName_ddlSex"))).selectByVisibleText(paramAdultInfo.getSex()
-					.toUpperCase());
+			new Select(this.driver.findElement(By.id("ContentBody_ctrlSearchByName_ddlSex")))
+					.selectByVisibleText(paramAdultInfo.getSex().toUpperCase());
 		this.driver.findElement(By.id("ContentBody_btnSearch")).click();
-		getRecords(this.driver.getPageSource(), paramAdultInfo);
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+		List<WebElement>found = driver.findElements(By.id("ContentBody_tblParams"));
+		getRecords(found.size()>0?found.get(0).getText():"Foo", paramAdultInfo);
 		if (this.printFlag) {
-			DelayedPressEnterThread localDelayedPressEnterThread = new DelayedPressEnterThread("DelayedPressEnterThread", 5000);
+			new DelayedPressEnterThread("DelayedPressEnterThread", 3000);
 			this.driver.findElement(By.id("hlPrint")).click();
-			this.robot.delay(5000);
+			this.robot.delay(3000);
 		}
-		this.robot.delay(5000);
+		this.robot.delay(3000);
 	}
 
 	public void tearDown() throws Exception {
@@ -197,14 +195,13 @@ public class TXSexualOffender {
 	}
 
 	public void getRecords(String paramString, AdultInfo paramAdultInfo) {
-		Pattern localPattern = Pattern.compile("^.*<td align=\"center\">[0]</td>.*$", 32);
-		Matcher localMatcher = localPattern.matcher(paramString);
-		if (localMatcher.matches()) {
+		if (paramString.matches("^.*(\n)?.*" + paramAdultInfo.lastName + " " + paramAdultInfo.firstName + "( [\\-0-9]+)? 0$")) {
 			this.checksOk += 1;
-			paramAdultInfo.setCheckResult(1);
+			paramAdultInfo.setCheckResult(AdultInfo.CHECK_OK);
 		} else {
+			System.out.println("Could not find match in: "+paramString);
 			this.checksBad += 1;
-			paramAdultInfo.setCheckResult(2);
+			paramAdultInfo.setCheckResult(AdultInfo.CHECK_BAD);
 		}
 	}
 }
