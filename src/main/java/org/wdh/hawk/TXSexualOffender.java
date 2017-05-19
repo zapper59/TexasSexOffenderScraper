@@ -97,14 +97,14 @@ public class TXSexualOffender {
 
 	public void doTestcase(AdultInfo paramAdultInfo) throws Exception {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		if (this.firstTime) {
-			this.firstTime = false;
-			this.driver.get(this.baseUrl + "/SexOffender/PublicSite/Application/Search/Caveats.aspx?SearchType=Name");
-			this.driver.findElement(By.id("ContentBody_chkAgree")).click();
-			this.driver.findElement(By.id("ContentBody_btnContinue")).click();
-		} else {
-			this.driver.findElement(By.id("ContentBody_SearchHeader1_hlSearch")).click();
-		}
+//		if (true || this.firstTime) {
+		this.firstTime = false;
+		this.driver.get(this.baseUrl + "/SexOffender/PublicSite/Application/Search/Caveats.aspx?SearchType=Name");
+		this.driver.findElement(By.id("ContentBody_chkAgree")).click();
+		this.driver.findElement(By.id("ContentBody_btnContinue")).click();
+//		} else {
+//			this.driver.findElement(By.id("ContentBody_SearchHeader1_hlSearch")).click();
+//		}
 		this.driver.findElement(By.id("ContentBody_ctrlSearchByName_txtLastName")).clear();
 		this.driver.findElement(By.id("ContentBody_ctrlSearchByName_txtLastName")).sendKeys(
 				new CharSequence[]{paramAdultInfo.getLastName()});
@@ -125,7 +125,7 @@ public class TXSexualOffender {
 		if (this.printFlag) {
 			new DelayedPressEnterThread("DelayedPressEnterThread", 3000);
 			this.driver.findElement(By.id("hlPrint")).click();
-			this.robot.delay(3000);
+			this.robot.delay(5000);
 		}
 		this.robot.delay(3000);
 	}
