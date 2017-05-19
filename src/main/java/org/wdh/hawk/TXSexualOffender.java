@@ -195,7 +195,8 @@ public class TXSexualOffender {
 	}
 
 	public void getRecords(String paramString, AdultInfo paramAdultInfo) {
-		if (paramString.matches("^.*(\n)?.*" + paramAdultInfo.lastName + " " + paramAdultInfo.firstName + "( [\\-0-9]+)? 0$")) {
+		if (paramString.toLowerCase()
+				.matches("^.*(\n)?.*" + paramAdultInfo.lastName + " " + paramAdultInfo.firstName + "( [\\-0-9]+)? 0$")) {
 			this.checksOk += 1;
 			paramAdultInfo.setCheckResult(AdultInfo.CHECK_OK);
 		} else {
