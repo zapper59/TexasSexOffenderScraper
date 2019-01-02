@@ -4,19 +4,19 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
-public class DelayedPressEnterThread implements Runnable {
+public class DelayedPrintThread implements Runnable {
 	Thread runner;
 	private int delay;
 
-	public DelayedPressEnterThread() {
+	public DelayedPrintThread() {
 	}
 
-	public DelayedPressEnterThread(String paramString) {
+	public DelayedPrintThread(String paramString) {
 		this.delay = 5000;
 		init(paramString);
 	}
 
-	public DelayedPressEnterThread(String paramString, int paramInt) {
+	public DelayedPrintThread(String paramString, int paramInt) {
 		this.delay = paramInt;
 		init(paramString);
 	}
@@ -28,15 +28,22 @@ public class DelayedPressEnterThread implements Runnable {
 
 	@Override
 	public void run() {
-		Robot localRobot = null;
+		Robot robot = null;
 		try {
-			localRobot = new Robot();
+			robot = new Robot();
 		} catch (AWTException localAWTException) {
 			localAWTException.printStackTrace();
 		}
-		localRobot.delay(this.delay);
-		localRobot.keyPress(KeyEvent.VK_ENTER);
-		localRobot.keyRelease(KeyEvent.VK_ENTER);
+
+		robot.keyPress(KeyEvent.VK_CONTROL );
+		robot.keyPress(KeyEvent.VK_P );
+		robot.keyRelease(KeyEvent.VK_P );
+		robot.keyRelease(KeyEvent.VK_CONTROL);
+
+		robot.delay(this.delay);
+
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.keyRelease(KeyEvent.VK_ENTER);
 	}
 }
 

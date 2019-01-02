@@ -398,9 +398,9 @@ public class HawkMainApp extends JFrame {
 				int j = 0;
 				int k = 0;
 				for (int m = 0; m < this.entries.size(); m++) {
-					if (this.entries.get(m).getCheckResult() == 1) {
+					if (this.entries.get(m).getCheckResult() == AdultInfo.CHECK_OK) {
 						i++;
-					} else if (this.entries.get(m).getCheckResult() == 2) {
+					} else if (this.entries.get(m).getCheckResult() == AdultInfo.CHECK_BAD) {
 						j++;
 					} else {
 						k++;

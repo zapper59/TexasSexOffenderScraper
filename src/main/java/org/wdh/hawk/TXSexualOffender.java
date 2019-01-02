@@ -2,6 +2,7 @@ package org.wdh.hawk;
 
 import java.awt.Robot;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +43,10 @@ public class TXSexualOffender {
 	boolean toggle = false;
 	boolean simulate = false;
 	boolean firstTime = true;
+
+	static final String SEARCH_EXTENSION = "SexOffenderRegistry/Search/Default/SearchByNames?lastName={0}&firstName={1}&DOB={2}";
+	static final String UNICODE_SPACE =    "%2F";
+	static final String RESULTS_TABLE_CLASS = "table-boarder";
 
 	public TXSexualOffender() {
 	}
@@ -95,8 +100,8 @@ public class TXSexualOffender {
 		}
 	}
 
-	public void doTestcase(AdultInfo paramAdultInfo) throws Exception {
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	public void doTestcase(AdultInfo info) throws Exception {
+		/*driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 //		if (true || this.firstTime) {
 		this.firstTime = false;
 		this.driver.get(this.baseUrl + "/SexOffender/PublicSite/Application/Search/Caveats.aspx?SearchType=Name");
@@ -119,12 +124,25 @@ public class TXSexualOffender {
 			new Select(this.driver.findElement(By.id("ContentBody_ctrlSearchByName_ddlSex")))
 					.selectByVisibleText(paramAdultInfo.getSex().toUpperCase());
 		this.driver.findElement(By.id("ContentBody_btnSearch")).click();
+		*/
+
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-		List<WebElement>found = driver.findElements(By.id("ContentBody_tblParams"));
-		getRecords(found.size()>0?found.get(0).getText():"Foo", paramAdultInfo);
+
+		this.driver.get(this.baseUrl + MessageFormat.format(SEARCH_EXTENSION, info.getLastName(), info.getFirstName(), info.getDob().replaceAll("/", UNICODE_SPACE)));
+
+		//getRecords(found.size()>0?found.get(0).getText():"Foo", info);
+
+		// This table only exists if there were results found
+		List<WebElement>found = driver.findElements(By.className(RESULTS_TABLE_CLASS));
+		if (found.size() > 0) {
+			info.setCheckResult(AdultInfo.CHECK_BAD);
+		} else {
+			info.setCheckResult(AdultInfo.CHECK_OK);
+		}
+
 		if (this.printFlag) {
-			new DelayedPressEnterThread("DelayedPressEnterThread", 3000);
-			this.driver.findElement(By.id("hlPrint")).click();
+			new DelayedPrintThread("PrintThread", 3000);
+			//this.driver.findElement(By.id("hlPrint")).click();
 			this.robot.delay(5000);
 		}
 		this.robot.delay(3000);
@@ -195,7 +213,7 @@ public class TXSexualOffender {
 		this.checksBad = paramInt;
 	}
 
-	public void getRecords(String paramString, AdultInfo paramAdultInfo) {
+	/*public void getRecords(String paramString, AdultInfo paramAdultInfo) {
 		if (paramString.toLowerCase()
 				.matches("^.*(\n)?.*" + paramAdultInfo.lastName + " " + paramAdultInfo.firstName + "( [\\-0-9]+)? 0$")) {
 			this.checksOk += 1;
@@ -205,7 +223,7 @@ public class TXSexualOffender {
 			this.checksBad += 1;
 			paramAdultInfo.setCheckResult(AdultInfo.CHECK_BAD);
 		}
-	}
+	}*/
 }
 
 /*
