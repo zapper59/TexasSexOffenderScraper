@@ -77,7 +77,7 @@ public class TXSexualOffender {
 					this.logger = Logger.getLogger("InfoLogging");
 					this.driver = new FirefoxDriver();
 					driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-					this.baseUrl = "https://records.txdps.state.tx.us/";
+					this.baseUrl = "https://publicsite.dps.texas.gov/";
 					return;
 				} catch (Exception e) {
 				}
